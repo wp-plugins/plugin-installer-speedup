@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Plugin Installer Speedup
-Version: 0.2
+Version: 0.2.1
 Description: Speedups: dont't load featured plugins, make Search Plugins button visible, skip plugin install confirmation.
 Plugin URI: https://wordpress.org/plugins/plugin-installer-speedup/
 Author: Viktor Szépe
@@ -42,7 +42,7 @@ class O1_Plugin_Speedups {
 
         wp_add_inline_style( 'wp-admin', $style );
 
-        // no inline scripting in WP
+        // No inline scripting in WP
         wp_enqueue_script(
             'plugin-installer-speedup',
             plugin_dir_url( __FILE__ ) . 'js/installer.js',
@@ -57,7 +57,7 @@ class O1_Plugin_Speedups {
         global $submenu;
 
         if ( ! is_multisite() ) {
-            // hack into the Settings menu
+            // Hack into the Settings menu
             $submenu['plugins.php'][9] = array( _x( 'Favorites', 'Plugin Installer' ),
                 'install_plugins', 'plugin-install.php?tab=favorites' );
             $submenu['plugins.php'][11] = array( __( 'Upload Plugin' ),
@@ -80,12 +80,10 @@ class O1_Plugin_Speedups {
     }
 
     public function hook_modify_source() {
-error_log('H1');
 
         if ( 'upload-plugin' !== $_GET['action'] ) {
             return;
         }
-error_log('H2');
 
         // Remove "-master" from GitHub URL-s
         add_filter( 'upgrader_source_selection', array( $this, 'remove_github_master' ), 9, 3 );
@@ -114,7 +112,7 @@ error_log('H2');
         }
 
         if ( substr( $haystack, -$length ) !== $needle ) {
-            // try with a slash
+            // Try with a slash too
             if ( substr( $haystack, -$length - 1 ) === $needle . '/' ) {
                 return substr( $haystack, 0, -$length - 1 ) . '/';
             }
